@@ -263,37 +263,33 @@ def render_sidebar():
 def form_mentee_agreement():
     st.subheader("신입강사 멘토링 참여 서약서")
 
-    # ✅ 서약서 본문 표시
     st.markdown("""
-    ※ 본 멘토링 프로그램은 신입강사의 초기 적응 지원과 수업 역량 강화를 목적으로 하며,  
+    ※ 본 멘토링 프로그램은 신입강사의 초기 적응 지원과 수업 역량 강화를 목적으로 하며,
     멘토의 지도와 점검을 통해 안정적인 정착을 돕기 위한 과정입니다.
 
-    1. 본인은 배정담당자의 추천 또는 회사의 운영 기준에 따라 본 멘토링 프로그램 대상자로 선정되었음을 숙지하였습니다.  
-    2. 본인은 본 멘토링 프로그램이 본인의 자발적인 참여 의사에 따라 진행됨을 확인하였습니다.  
-    3. 본인은 멘티로서 멘토 및 교관의 지도와 안내 사항을 성실히 이행하겠습니다.  
-    4. 본인은 멘토링 진행 과정에서 요청되는 수업계획서 작성, 수업 운영안 제출, 피드백 반영 등 제반 사항에 성실히 참여하겠습니다.  
-    5. 본인은 멘토의 정당한 지도 및 요청 사항을 반복적으로 이행하지 않을 경우, 멘토링이 조기 종료될 수 있음을 확인하였습니다.  
-    6. 본인은 특별한 사유 없이 멘토링을 중도 포기하거나 운영 기준을 성실히 따르지 않을 경우, 향후 배정 및 운영상 불이익이 발생할 수 있음을 확인하였습니다.  
-    7. 본인은 첫 수업 및 멘토링 진행 과정에서 확인된 보완 사항에 대해 성실히 개선하고, 필요한 경우 추가 지도 및 보완 절차에 협조하겠습니다.  
-    8. 본인은 멘토링 과정을 충실히 이행한 경우, 회사 운영 기준에 따라 우선 배정 검토, 추가 성장 기회 제공 등 후속 지원이 이루어질 수 있음을 확인하였습니다.  
+    1. 본인은 배정담당자의 추천 또는 회사의 운영 기준에 따라 본 멘토링 프로그램 대상자로 선정되었음을 숙지하였습니다.
+    2. 본인은 본 멘토링 프로그램이 본인의 자발적인 참여 의사에 따라 진행됨을 확인하였습니다.
+    3. 본인은 멘티로서 멘토 및 교관의 지도와 안내 사항을 성실히 이행하겠습니다.
+    4. 본인은 멘토링 진행 과정에서 요청되는 수업계획서 작성, 수업 운영안 제출, 피드백 반영 등 제반 사항에 성실히 참여하겠습니다.
+    5. 본인은 멘토의 정당한 지도 및 요청 사항을 반복적으로 이행하지 않을 경우, 멘토링이 조기 종료될 수 있음을 확인하였습니다.
+    6. 본인은 특별한 사유 없이 멘토링을 중도 포기하거나 운영 기준을 성실히 따르지 않을 경우, 향후 배정 및 운영상 불이익이 발생할 수 있음을 확인하였습니다.
+    7. 본인은 첫 수업 및 멘토링 진행 과정에서 확인된 보완 사항에 대해 성실히 개선하고, 필요한 경우 추가 지도 및 보완 절차에 협조하겠습니다.
+    8. 본인은 멘토링 과정을 충실히 이행한 경우, 회사 운영 기준에 따라 우선 배정 검토, 추가 성장 기회 제공 등 후속 지원이 이루어질 수 있음을 확인하였습니다.
 
-    상기 본인은 이지수능교육 강사로서 위 내용을 충분히 숙지하고 이해하였으며,  
+    상기 본인은 이지수능교육 강사로서 위 내용을 충분히 숙지하고 이해하였으며,
     이를 성실히 준수할 것을 서약합니다.
     """)
 
     st.divider()
 
-    # ✅ 동의 체크
-    agree = st.checkbox("위 내용을 모두 확인하였으며 이에 동의합니다.")
-
-    # ✅ 작성 정보
-    signed_date = st.date_input("작성일", value=date.today())
-    name = st.text_input("성명")
+    agree = st.checkbox("위 내용을 모두 확인하였으며 이에 동의합니다.", key="mentee_agree_check")
+    signed_date = st.date_input("작성일", value=date.today(), key="mentee_agree_date")
+    name = st.text_input("성명", key="mentee_agree_name")    
 
     return {
         "서약서 동의 여부": agree,
         "작성일": str(signed_date),
-        "성명": name,
+        "성명": name
     }
 
 
@@ -610,81 +606,104 @@ def form_mentor_report():
 
 def form_mentor_checklist():
     st.subheader("회차별 멘토 확인표")
+
     data = {
         "멘티명": st.text_input("멘티명"),
         "과목": st.text_input("과목"),
         "멘토명": st.text_input("멘토명"),
-        "시작일": str(st.date_input("시작일", value=date.today())),
+        "시작일": str(st.date_input("시작일", value=date.today(), key="mentor_check_start_date")),
         "학생명": st.text_input("학생명"),
-        "특이사항": st.text_area("특이사항"),
-        "후속 조치": st.text_area("후속 조치"),
-        "멘토 종합 의견": st.text_area("멘토 종합 의견")
     }
 
-    sections = {
-        "첫 수업 전 확인 사항": [
-            "1~8회차 수업계획서 작성 여부",
-            "첫 수업 90분 구성안 작성 여부",
-            "학생 수준 및 학부모 요청사항 파악 여부",
-            "OT/사전 통화 멘트 준비 여부",
-            "교재 및 과제 기준 설정 여부",
-            "첫 수업 후 학부모 피드백 계획 수립 여부",
-        ],
-        "첫 수업 후 확인 사항": [
-            "실제 수업 진행 흐름 확인",
-            "학생 반응 및 참여도 확인",
-            "학부모 반응 및 초기 만족도 확인",
-            "담임 모니터링 필요 여부 확인",
-            "수업계획서와 실제 수업의 차이 확인",
-        ],
-        "2회차 전 확인 사항": [
-            "수정된 수업계획서 반영 여부",
-            "학생 수준에 맞춘 난이도 조정 여부",
-            "과제 및 피드백 방식 보완 여부",
-            "학부모 안내 문구 또는 상담 방향 정리 여부",
-            "2회차 수업 목표 명확화 여부",
-        ],
-        "3회차 전 확인 사항": [
-            "1~2회차 진행 후 수업 안정화 여부",
-            "학생 반응 및 출결·과제 수행 상태 확인",
-            "학부모 신뢰 형성 여부",
-            "수업 중단 위험 요소 확인",
-            "설명 방식, 시간 배분, 과제 운영 보완 필요 여부",
-        ],
-        "4~5회차 확인 사항": [
-            "1개월 운영 결과 회고",
-            "설명 방식 및 시간 배분 보정 여부",
-            "과제·피드백 루틴 안정화 여부",
-            "중간 상담 준비 상태",
-            "중단 위험 신호 확인",
-        ],
-        "6~8회차 확인 사항": [
-            "2개월 운영 성과 정리 여부",
-            "학생·학부모 만족도 추이 확인",
-            "장기 유지 가능성 점검",
-            "추가 타임 또는 과목 확장 가능성 검토",
-            "3~6개월 운영 방향 설계 여부",
-        ]
+    stage_sections = {
+        "Stage 1": {
+            "첫 수업 전 확인 사항": [
+                "1~3회차 수업계획서 작성 여부",
+                "첫 수업 90분 구성안 작성 여부",
+                "학생 수준 및 학부모 요청사항 파악 여부",
+                "OT/사전 통화 멘트 준비 여부",
+                "교재 및 과제 기준 설정 여부",
+                "첫 수업 후 학부모 피드백 계획 수립 여부",
+            ],
+            "첫 수업 후 확인 사항": [
+                "실제 수업 진행 흐름 확인",
+                "학생 반응 및 참여도 확인",
+                "학부모 반응 및 초기 만족도 확인",
+                "담임 모니터링 필요 여부 확인",
+                "수업계획서와 실제 수업의 차이 확인",
+            ],
+        },
+        "Stage 2": {
+            "3회차 후 확인 사항": [
+                "4~5회차 진행 후 수업 안정화 여부",
+                "학생 반응 및 출결·과제 수행 상태 확인",
+                "학부모 신뢰 형성 여부",
+                "수업 중단 위험 요소 확인",
+                "설명 방식, 시간 배분, 과제 운영 보완 필요 여부",
+            ],
+            "4~5회차 확인 사항": [
+                "1개월 운영 결과 회고",
+                "설명 방식 및 시간 배분 보정 여부",
+                "과제·피드백 루틴 안정화 여부",
+                "중간 상담 준비 상태",
+                "중단 위험 신호 확인",
+            ],
+        },
+        "Stage 3": {
+            "6~8회차 확인 사항": [
+                "2개월 운영 성과 정리 여부",
+                "학생·학부모 만족도 추이 확인",
+                "장기 유지 가능성 점검",
+                "추가 타임 또는 과목 확장 가능성 검토",
+                "3~6개월 운영 방향 설계 여부",
+            ],
+        },
     }
 
-    result = {}
-    for section, items in sections.items():
-        st.markdown(f"### {section}")
-        result[section] = {}
-        for idx, item in enumerate(items):
-            with st.expander(item):
-                result[section][item] = {
-                    "확인 결과": st.text_area(f"{item} - 확인 결과", key=f"{section}_{idx}_r"),
-                    "보완 사항": st.text_area(f"{item} - 보완 사항", key=f"{section}_{idx}_f"),
-                    "확인일": str(st.date_input(f"{item} - 확인일", value=date.today(), key=f"{section}_{idx}_d"))
-                }
-    data["확인표 상세"] = result
+    detail = {}
 
+    for stage_name, sections in stage_sections.items():
+        st.markdown(f"## {stage_name}")
+        detail[stage_name] = {}
+
+        for section_name, items in sections.items():
+            st.markdown(f"### {section_name}")
+            detail[stage_name][section_name] = {}
+
+            for idx, item in enumerate(items):
+                with st.expander(item):
+                    detail[stage_name][section_name][item] = {
+                        "확인 결과": st.text_area(
+                            f"{item} - 확인 결과",
+                            key=f"{stage_name}_{section_name}_{idx}_result"
+                        ),
+                        "보완 사항": st.text_area(
+                            f"{item} - 보완 사항",
+                            key=f"{stage_name}_{section_name}_{idx}_action"
+                        ),
+                        "확인일": str(
+                            st.date_input(
+                                f"{item} - 확인일",
+                                value=date.today(),
+                                key=f"{stage_name}_{section_name}_{idx}_date"
+                            )
+                        ),
+                    }
+
+    data["확인표 상세"] = detail
+
+    st.markdown("## 첫 수업 후 분기별 판단")
     data["첫 수업 후 분기별 판단"] = st.radio(
-        "첫 수업 후 분기별 판단",
+        "판단 결과",
         ["만족", "보완 필요", "불만족 또는 인계 발생"],
-        horizontal=True
+        horizontal=True,
+        key="mentor_check_branching"
     )
+
+    data["특이사항"] = st.text_area("특이사항")
+    data["후속 조치"] = st.text_area("후속 조치")
+    data["멘토 종합 의견"] = st.text_area("멘토 종합 의견")
+
     return data
 
 
@@ -754,66 +773,75 @@ def render_mentee():
     tab1, tab2, tab3 = st.tabs(["서류 작성", "수업 계획서", "제출 내역"])
 
     with tab1:
-        doc = st.selectbox("작성 문서 선택", ["멘토링 참여서약서", "신입강사용 사전 정보지", "수업계획서"])
+        doc = st.selectbox(
+            "문서 선택",
+            ["멘토링 참여서약서", "사전 정보지"],
+            key="mentee_tab1_doc"
+        )
+
+        content = None
+        version_label = None
+
         if doc == "멘토링 참여서약서":
             content = form_mentee_agreement()
-        elif doc == "신입강사용 사전 정보지":
+        elif doc == "사전 정보지":
             content = form_mentee_info()
-        else:
-            content = form_lesson_plan()
+            version_label = "초안"
 
-        if st.button("저장", use_container_width=True):
-            if doc == "멘토링 참여서약서" and not content["동의여부"]:
-                st.warning("동의 체크가 필요합니다.")
+        if st.button("저장", key="mentee_tab1_save", use_container_width=True):
+            if doc == "멘토링 참여서약서" and not content.get("서약서 동의 여부", False):
+                st.warning("서약 내용 동의가 필요합니다.")
             else:
                 path = save_document_record(
                     user=user,
                     doc_type=doc,
                     content=content,
                     related_mentee_user_id=user["id"],
-                    version_label="초안" if doc == "수업계획서" else None
+                    version_label=version_label
                 )
                 st.success(f"저장 완료: {path}")
 
     with tab2:
         doc = st.selectbox(
-        "작성 문서 선택",
-        ["수업계획서",
-         "첫 수업 운영 계획",
-         "회차별 수업계획"
-        ],
-        key="after_first_class_doc"
-    )
-
-    if doc == "수업계획서":
-        revised = form_lesson_plan_basic()
-        save_doc_type = "수업계획서"
-        save_version = "수정본"
-
-    elif doc == "첫 수업 운영 계획":
-        revised = form_first_class_plan()
-        save_doc_type = "첫 수업 운영 계획"
-        save_version = "수정본"
-
-    elif doc == "회차별 수업계획":
-        revised = form_session_plan()
-        save_doc_type = "회차별 수업계획"
-        save_version = f"{revised['회차']}회차"
-
-    if st.button("수정본 저장", key="save_revised", use_container_width=True):
-        path = save_document_record(
-            user=user,
-            doc_type=save_doc_type,
-            content=revised,
-            related_mentee_user_id=user["id"],
-            version_label=save_version
+            "작성 문서 선택",
+            ["수업계획서", "첫 수업 운영 계획", "회차별 수업계획"],
+            key="after_first_class_doc"
         )
-        st.success(f"수정본 저장 완료: {path}")
+
+        revised = None
+        save_doc_type = None
+        save_version = None
+
+        if doc == "수업계획서":
+            revised = form_lesson_plan_basic()
+            save_doc_type = "수업계획서"
+            save_version = "수정본"
+        elif doc == "첫 수업 운영 계획":
+            revised = form_first_class_plan()
+            save_doc_type = "첫 수업 운영 계획"
+            save_version = "수정본"
+        elif doc == "회차별 수업계획":
+            revised = form_session_plan()
+            save_doc_type = "회차별 수업계획"
+            save_version = f"{revised['회차']}회차"
+
+        if st.button("수정본 저장", key="save_revised", use_container_width=True):
+            path = save_document_record(
+                user=user,
+                doc_type=save_doc_type,
+                content=revised,
+                related_mentee_user_id=user["id"],
+                version_label=save_version
+            )
+            st.success(f"수정본 저장 완료: {path}")
 
     with tab3:
         docs = list_documents_for_user(user["id"])
-        for d in docs:
-            st.write(f"- {d['doc_type']} / {d['version_label'] or '-'} / {d['submitted_at']}")
+        if not docs:
+            st.info("제출한 문서가 없습니다.")
+        else:
+            for d in docs:
+                st.write(f"- {d['doc_type']} / {d['version_label'] or '-'} / {d['submitted_at']}")
 
 
 def render_mentor():
